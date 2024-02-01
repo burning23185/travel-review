@@ -11,7 +11,7 @@ import certifi
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] =\
-    'sqlite:///' + os.path.join(basedir, 'database.db')
+'sqlite:///' + os.path.join(basedir, 'database.db')
 
 db = SQLAlchemy(app)
 
@@ -200,8 +200,11 @@ def get_tourist_place_details(content_id):
 @app.route('/place/<int:content_id>')
 def show_place_details(content_id=132215):
     json_data = get_tourist_place_details(content_id)
-    context = {'place' : [],
-            'review' : [],}
+    context = {
+        'place' : [],
+            # 'review' : Review.query.filter_by(tour_id = ).all(),
+        'review' : Review.query.all(),
+    }
     if json_data:
         item = json_data['response']['body']['items']['item'][0]
         context['place'] = item
